@@ -93,10 +93,13 @@ if(NOT GNURADIO_RUNTIME_FOUND)
 endif()
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    find_package(PulseAudio REQUIRED)
-    # there is a defect in the pulse audio cmake file that does not include this library. So we add it here.
-    find_library(PULSE-SIMPLE NAMES pulse-simple REQUIRED)
-    ADD_DEFINITIONS(-DWITH_PULSEAUDIO)
+    OPTION(USE_PULSEAUDIO "Enable support for pulseaudio backend" ON)
+    IF(USE_PULSEAUDIO)
+        find_package(PulseAudio REQUIRED)
+        # there is a defect in the pulse audio cmake file that does not include this library. So we add it here.
+        find_library(PULSE-SIMPLE NAMES pulse-simple REQUIRED)
+        ADD_DEFINITIONS(-DWITH_PULSEAUDIO)
+    ENDIF()
 ENDIF()
 
 # Tell CMake to run moc when necessary:
